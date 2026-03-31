@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import Spinner from '../components/Spinner';
 import ProgressBar from '../components/ProgressBar';
-import { Layout, BookOpen, Clock, Award, ChevronRight, Activity } from 'lucide-react';
+import { Layout, BookOpen, Book, Clock, Award, ChevronRight, Activity } from 'lucide-react';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
