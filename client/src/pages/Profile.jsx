@@ -1,19 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { User, Mail, Shield, Book, Award, Clock, Camera, BookOpen, ChevronRight, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { User, Mail, Shield, Book, Award, Clock, Camera, BookOpen, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ProgressBar from '../components/ProgressBar';
 
 const Profile = () => {
-  const { user, login } = useAuth();
-  const fileInputRef = useRef(null);
-
+  const { user } = useAuth();
   const [enrollments, setEnrollments] = useState([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(true);
-  const [avatarPreview, setAvatarPreview] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [toast, setToast] = useState(null); // { type: 'success'|'error', msg }
 
   useEffect(() => {
     if (user) fetchEnrollments();
@@ -30,127 +25,27 @@ const Profile = () => {
     }
   };
 
-  const showToast = (type, msg) => {
-    setToast({ type, msg });
-    setTimeout(() => setToast(null), 3500);
-  };
-
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Validate type
-    if (!file.type.startsWith('image/')) {
-      showToast('error', 'Please select a valid image file.');
-      return;
-    }
-    // Validate size (max 4MB)
-    if (file.size > 4 * 1024 * 1024) {
-      showToast('error', 'Image must be under 4MB.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64 = reader.result;
-      setAvatarPreview(base64);
-      setUploading(true);
-      try {
-        const { data } = await axios.put('/api/auth/avatar', { avatar: base64 });
-        // Patch user context avatar without full re-login
-        if (data.success) {
-          showToast('success', 'Profile picture updated!');
-        }
-      } catch (err) {
-        showToast('error', err.response?.data?.message || 'Upload failed. Try again.');
-        setAvatarPreview(null);
-      } finally {
-        setUploading(false);
-      }
-    };
-    reader.readAsDataURL(file);
-    // Reset so same file can be re-selected
-    e.target.value = '';
-  };
-
   if (!user) return <div className="text-center py-20">Please login to view profile.</div>;
 
   const completedCourses = enrollments.filter(e => e.progress === 100).length;
-  const currentAvatar = avatarPreview || user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=6366f1&color=fff&size=160`;
 
   return (
     <div className="container flex flex-col gap-10 py-10" style={{ maxWidth: '1000px' }}>
-
-      {/* Toast notification */}
-      {toast && (
-        <div style={{
-          position: 'fixed', top: '90px', right: '2rem', zIndex: 9999,
-          display: 'flex', alignItems: 'center', gap: '0.75rem',
-          background: toast.type === 'success' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
-          border: `1px solid ${toast.type === 'success' ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'}`,
-          backdropFilter: 'blur(12px)', padding: '1rem 1.5rem',
-          borderRadius: '14px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-          animation: 'fadeIn 0.3s ease',
-        }}>
-          {toast.type === 'success'
-            ? <CheckCircle size={20} color="#22c55e" />
-            : <AlertCircle size={20} color="#ef4444" />}
-          <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>{toast.msg}</span>
-        </div>
-      )}
-
       {/* Hero card */}
       <div className="glass flex flex-col items-center gap-6" style={{ padding: '4rem 2rem', borderRadius: '40px', position: 'relative' }}>
-
-        {/* Avatar */}
         <div style={{ position: 'relative' }}>
-          <div
-            className="glass flex items-center justify-center overflow-hidden"
-            style={{ width: '160px', height: '160px', borderRadius: '50%', border: '4px solid var(--primary)', background: 'var(--bg-card)', position: 'relative' }}
-          >
-            <img
-              src={currentAvatar}
-              alt="Profile"
+          <div className="glass flex items-center justify-center overflow-hidden" 
+               style={{ width: '160px', height: '160px', borderRadius: '50%', border: '4px solid var(--primary)', background: 'var(--bg-card)' }}>
+            <img 
+              src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=6366f1&color=fff&size=160`} 
+              alt="Profile" 
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-            {uploading && (
-              <div style={{
-                position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.55)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%',
-              }}>
-                <Loader size={36} color="white" style={{ animation: 'spin 1s linear infinite' }} />
-              </div>
-            )}
           </div>
-
-          {/* Camera button triggers hidden file input */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-          />
-          <button
-            className="btn-primary"
-            title="Upload profile picture"
-            disabled={uploading}
-            onClick={() => fileInputRef.current?.click()}
-            style={{
-              position: 'absolute', bottom: '8px', right: '8px',
-              padding: '0.5rem', borderRadius: '50%', width: '40px', height: '40px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 4px 16px rgba(99,102,241,0.5)',
-              cursor: uploading ? 'not-allowed' : 'pointer',
-            }}
-          >
-            <Camera size={18} />
+          <button className="btn-primary" style={{ position: 'absolute', bottom: '10px', right: '10px', padding: '0.5rem', borderRadius: '50%' }}>
+            <Camera size={20} />
           </button>
         </div>
-
-        <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '-0.5rem' }}>
-          Click the camera icon to upload a photo (JPG, PNG, GIF — max 4MB)
-        </p>
 
         <div className="text-center flex flex-col gap-2">
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800 }}>{user.username}</h1>
@@ -184,13 +79,6 @@ const Profile = () => {
         <div className="card glass flex flex-col gap-6" style={{ padding: '2rem' }}>
           <h2 style={{ fontSize: '1.5rem' }}>Personal Info</h2>
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-4 p-4 glass rounded-xl">
-              <User size={20} color="var(--text-muted)" />
-              <div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Username</p>
-                <p style={{ fontWeight: 600 }}>{user.username}</p>
-              </div>
-            </div>
             <div className="flex items-center gap-4 p-4 glass rounded-xl">
               <Mail size={20} color="var(--text-muted)" />
               <div>
@@ -248,6 +136,7 @@ const Profile = () => {
                   padding: '1rem 1.25rem', border: '1px solid rgba(255,255,255,0.06)',
                 }}
               >
+                {/* Thumbnail */}
                 <div style={{ width: '80px', height: '50px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0 }}>
                   <img
                     src={enroll.course?.thumbnail || 'https://via.placeholder.com/80x50?text=Course'}
@@ -255,12 +144,16 @@ const Profile = () => {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 </div>
+
+                {/* Title + progress */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontWeight: 700, marginBottom: '6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {enroll.course?.title}
                   </p>
                   <ProgressBar progress={enroll.progress} showText={true} height="6px" />
                 </div>
+
+                {/* Continue link */}
                 <Link
                   to={`/course/${enroll.course?._id}/learn/${enroll.completedLessons?.[enroll.completedLessons.length - 1] || 'start'}`}
                   className="btn-outline"
@@ -279,11 +172,6 @@ const Profile = () => {
           </div>
         )}
       </div>
-
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-      `}</style>
     </div>
   );
 };

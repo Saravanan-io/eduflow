@@ -107,13 +107,12 @@ const CourseDetail = () => {
         </div>
 
         <div style={{ position: 'relative' }}>
-          <div style={{ borderRadius: '24px', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.5)', aspectRatio: '16/9', background: 'var(--bg-card)' }}>
-            <img 
-              src={course.thumbnail} 
-              alt={course.title} 
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
-            />
-          </div>
+          <img 
+            src={course.thumbnail} 
+            alt={course.title} 
+            className="glass"
+            style={{ width: '100%', borderRadius: '24px', boxShadow: '0 30px 60px rgba(0,0,0,0.5)' }} 
+          />
           <div className="glass flex items-center gap-2" style={{ position: 'absolute', bottom: '-20px', left: '40px', padding: '1rem 2rem', borderRadius: '15px' }}>
             <BookOpen size={20} color="var(--primary)" />
             <span style={{ fontWeight: 700 }}>{course.lessons?.length || 0} Lessons</span>
