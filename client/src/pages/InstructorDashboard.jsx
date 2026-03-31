@@ -72,138 +72,151 @@ const InstructorDashboard = () => {
   const totalStudents = courses.reduce((acc, c) => acc + (c.students?.length || 0), 0);
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 style={{ fontSize: '2rem' }}>Instructor Panel 🎓</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Manage your courses and interact with your students.</p>
+    <div className="flex flex-col gap-10 animate-fade" style={{ paddingBottom: '3rem' }}>
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="text-center md:text-left">
+          <h1 style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)', marginBottom: '0.5rem' }}>Instructor Panel 🎓</h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>Manage your courses and interact with your students.</p>
         </div>
-        <Link to="/create-course" className="btn-primary flex items-center gap-2">
-          <Plus size={20} />
+        <Link to="/create-course" className="btn-primary" style={{ padding: '0.85rem 1.75rem', borderRadius: '14px' }}>
+          <Plus size={22} />
           <span>Create New Course</span>
         </Link>
       </div>
 
-      <div className="grid grid-3">
-        <div className="card glass flex items-center gap-4">
-          <div style={{ padding: '1rem', background: 'rgba(99, 102, 241, 0.1)', borderRadius: '12px' }}>
-            <BookMarked size={24} color="var(--primary)" />
+      <div className="grid grid-2 grid-3" style={{ gap: '1.5rem' }}>
+        <div className="card glass flex items-center gap-4" style={{ padding: '1.75rem' }}>
+          <div style={{ padding: '1rem', background: 'rgba(99, 102, 241, 0.1)', borderRadius: '14px' }}>
+            <BookMarked size={28} color="var(--primary)" />
           </div>
           <div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Created Courses</p>
-            <p style={{ fontSize: '1.25rem', fontWeight: 700 }}>{courses.length}</p>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Created Courses</p>
+            <p style={{ fontSize: '1.5rem', fontWeight: 800 }}>{courses.length}</p>
           </div>
         </div>
-        <div className="card glass flex items-center gap-4">
-          <div style={{ padding: '1rem', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px' }}>
-            <Users size={24} color="var(--accent)" />
+        <div className="card glass flex items-center gap-4" style={{ padding: '1.75rem' }}>
+          <div style={{ padding: '1rem', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '14px' }}>
+            <Users size={28} color="var(--accent)" />
           </div>
           <div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Total Students</p>
-            <p style={{ fontSize: '1.25rem', fontWeight: 700 }}>{totalStudents}</p>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Total Students</p>
+            <p style={{ fontSize: '1.5rem', fontWeight: 800 }}>{totalStudents}</p>
           </div>
         </div>
-        <div className="card glass flex items-center gap-4">
-          <div style={{ padding: '1rem', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '12px' }}>
-            <BarChart2 size={24} color="#22d3ee" />
+        <div className="card glass flex items-center gap-4" style={{ padding: '1.75rem' }}>
+          <div style={{ padding: '1rem', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '14px' }}>
+            <BarChart2 size={28} color="#22d3ee" />
           </div>
           <div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Average Rating</p>
-            <p style={{ fontSize: '1.25rem', fontWeight: 700 }}>4.9/5.0</p>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Average Rating</p>
+            <p style={{ fontSize: '1.5rem', fontWeight: 800 }}>4.9/5.0</p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-2" style={{ gridTemplateColumns: 'minmax(0, 1fr) 350px', gap: '2rem' }}>
+      <div className="grid grid-2" style={{ gridTemplateColumns: 'minmax(0, 1fr) clamp(300px, 30%, 400px)', gap: '2.5rem' }}>
         {/* Course List */}
         <div className="flex flex-col gap-6">
-          <h2 style={{ fontSize: '1.5rem' }}>Management Center</h2>
+          <h2 style={{ fontSize: '1.75rem' }}>Syllabus Management</h2>
           <div className="flex flex-col gap-4">
             {courses.length > 0 ? (
               courses.map(course => (
-                <div key={course._id} className="card glass flex items-center justify-between gap-4" style={{ padding: '1.25rem' }}>
-                  <div className="flex items-center gap-4">
-                    <img src={course.thumbnail} style={{ width: '80px', height: '50px', borderRadius: '8px', objectFit: 'cover' }} alt="thumb" />
-                    <div>
-                      <h3 style={{ fontSize: '1rem' }}>{course.title}</h3>
-                      <div className="flex items-center gap-3 text-muted" style={{ fontSize: '0.75rem' }}>
-                        <span className="flex items-center gap-1"><Users size={12} /> {course.students?.length} Students</span>
+                <div key={course._id} className="card glass flex items-center justify-between gap-4" style={{ padding: '1.5rem', borderRadius: '20px' }}>
+                  <div className="flex items-center gap-5 overflow-hidden">
+                    <div className="hide-mobile" style={{ width: '80px', height: '50px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0 }}>
+                      <img src={course.thumbnail} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="thumb" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 style={{ fontSize: '1.15rem', marginBottom: '0.25rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{course.title}</h3>
+                      <div className="flex items-center gap-3 text-muted" style={{ fontSize: '0.8rem' }}>
+                        <span className="flex items-center gap-1"><Users size={14} /> {course.students?.length}</span>
                         <span className={`badge ${course.isPublished ? 'published' : 'draft'}`} style={{ 
-                          padding: '2px 8px', borderRadius: '4px', fontSize: '10px', 
-                          background: course.isPublished ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                          padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700,
+                          background: course.isPublished ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
                           color: course.isPublished ? 'var(--accent)' : 'var(--error)'
                         }}>
-                          {course.isPublished ? 'Published' : 'Draft'}
+                          {course.isPublished ? 'PUBLISHED' : 'DRAFT'}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button onClick={() => handleStartLive(course._id)} title="Go Live" className="btn-outline" style={{ padding: '0.5rem', color: 'var(--accent)', borderColor: 'var(--accent)' }}><Radio size={16} /></button>
-                    <button onClick={() => navigate(`/edit-course/${course._id}`)} title="Edit" className="btn-outline" style={{ padding: '0.5rem' }}><Edit size={16} /></button>
-                    <button onClick={() => handleTogglePublish(course._id)} title={course.isPublished ? 'Unpublish' : 'Publish'} className="btn-outline" style={{ padding: '0.5rem' }}><Eye size={16} /></button>
-                    <button onClick={() => handleDeleteCourse(course._id)} title="Delete" className="btn-outline" style={{ padding: '0.5rem', color: 'var(--error)', borderColor: 'var(--error)' }}><Trash2 size={16} /></button>
+                    <button onClick={() => handleStartLive(course._id)} title="Go Live" className="btn-outline" style={{ padding: '0.6rem', color: 'var(--accent)', borderColor: 'rgba(34, 197, 94, 0.3)' }}><Radio size={18} /></button>
+                    <button onClick={() => navigate(`/edit-course/${course._id}`)} title="Edit" className="btn-outline" style={{ padding: '0.6rem' }}><Edit size={18} /></button>
+                    <button onClick={() => handleTogglePublish(course._id)} title={course.isPublished ? 'Unpublish' : 'Publish'} className="btn-outline" style={{ padding: '0.6rem' }}><Eye size={18} /></button>
+                    <button onClick={() => handleDeleteCourse(course._id)} title="Delete" className="btn-outline" style={{ padding: '0.6rem', color: 'var(--error)', borderColor: 'rgba(239, 68, 68, 0.3)' }}><Trash2 size={18} /></button>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-muted">No courses yet. Start by creating your first course.</p>
+              <div className="glass text-center py-16" style={{ borderRadius: '20px' }}>
+                <p className="text-muted">You haven't created any courses yet.</p>
+              </div>
             )}
           </div>
         </div>
 
         {/* Sidebar Interactions */}
         <div className="flex flex-col gap-6">
-          <div className="card glass flex flex-col gap-4">
-            <h3 className="flex items-center gap-2" style={{ fontSize: '1.2rem' }}>
-              <Megaphone size={18} color="var(--primary)" />
-              Push Announcement
+          <div className="card glass flex flex-col gap-6" style={{ padding: '2rem', borderRadius: '24px' }}>
+            <h3 className="flex items-center gap-2" style={{ fontSize: '1.25rem' }}>
+              <Megaphone size={20} color="var(--primary)" />
+              Course Broadcast
             </h3>
-            <div className="flex flex-col gap-3">
-              <select 
-                value={selectedCourseId} 
-                onChange={(e) => setSelectedCourseId(e.target.value)}
-                style={{ fontSize: '0.85rem' }}
-              >
-                {courses.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
-              </select>
-              <textarea 
-                placeholder="Write your announcement..." 
-                value={announcement}
-                onChange={(e) => setAnnouncement(e.target.value)}
-                style={{ minHeight: '120px', fontSize: '0.9rem' }}
-              />
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Select Course</label>
+                <select 
+                  value={selectedCourseId} 
+                  onChange={(e) => setSelectedCourseId(e.target.value)}
+                  style={{ background: 'var(--bg-dark)' }}
+                >
+                  {courses.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
+                </select>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>Message</label>
+                <textarea 
+                  placeholder="Tell your students something..." 
+                  value={announcement}
+                  onChange={(e) => setAnnouncement(e.target.value)}
+                  style={{ minHeight: '120px', resize: 'none' }}
+                />
+              </div>
               <button 
                 onClick={handleSendAnnouncement}
                 className="btn-primary" 
-                style={{ width: '100%', padding: '0.75rem' }}
+                style={{ width: '100%', padding: '1rem', borderRadius: '12px' }}
                 disabled={!announcement || !selectedCourseId}
               >
-                Broadcast to Students
+                Send Announcement
               </button>
             </div>
           </div>
 
-          <div className="card glass">
-            <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Live Session Control</h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-              Click the radio icon <Radio size={14} style={{ display: 'inline', marginBottom: '-2px' }} /> next to a course to notify students you're live.
-            </p>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between text-muted" style={{ fontSize: '0.8rem' }}>
-                <span>Active Rooms</span>
-                <span>0</span>
+          <div className="card glass flex flex-col gap-4" style={{ borderRadius: '24px' }}>
+            <h3 style={{ fontSize: '1.25rem' }}>Live Insights</h3>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between p-3 glass rounded-xl">
+                <span className="text-muted" style={{ fontSize: '0.85rem' }}>Active Rooms</span>
+                <span style={{ fontWeight: 800 }}>0</span>
               </div>
-              <div className="flex items-center justify-between text-muted" style={{ fontSize: '0.8rem' }}>
-                <span>Peak Viewers</span>
-                <span>0</span>
+              <div className="flex items-center justify-between p-3 glass rounded-xl">
+                <span className="text-muted" style={{ fontSize: '0.85rem' }}>Peak Viewers</span>
+                <span style={{ fontWeight: 800 }}>0</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 1024px) {
+          .grid-2 { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 };
+
 
 export default InstructorDashboard;

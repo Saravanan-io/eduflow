@@ -2,24 +2,23 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import CourseCard from '../components/CourseCard';
 import Spinner from '../components/Spinner';
-import { Search, Filter, SlidersHorizontal } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 
 const CourseCatalog = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-  const [priceFilter, setPriceFilter] = useState('');
+  const [category, setCategory] = useState('All');
 
   useEffect(() => {
     fetchCourses();
-  }, [category, priceFilter]);
+  }, [category]);
 
   const fetchCourses = async () => {
     setLoading(true);
     try {
       const { data } = await axios.get('/api/courses', {
-        params: { category, price: priceFilter }
+        params: { category: category === 'All' ? '' : category }
       });
       setCourses(data.courses);
     } catch (err) {
@@ -34,94 +33,66 @@ const CourseCatalog = () => {
     course.description.toLowerCase().includes(search.toLowerCase())
   );
 
-  const categories = [
-    'Web Development', 'Data Science', 'Mobile Development', 
-    'UI/UX Design', 'DevOps', 'Cybersecurity', 'Machine Learning', 
-    'Cloud Computing', 'Business'
-  ];
-
   return (
-    <div className="container" style={{ paddingBottom: '4rem' }}>
-      <div className="flex flex-col gap-8">
-        {/* Hero Section */}
-        <div className="hero glass flex flex-col items-center text-center" style={{ padding: '4rem 2rem', borderRadius: '30px', marginTop: '1rem' }}>
-          <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', lineHeight: 1.1 }}>
-            Unlock Your <span style={{ color: 'var(--primary)' }}>Potential</span>
-          </h1>
-          <p style={{ color: 'var(--text-muted)', maxWidth: '600px', fontSize: '1.2rem', marginBottom: '2.5rem' }}>
-            Choose from over 1,000+ online courses with real-time tracking, intermediate quizzes, and expert instructors.
+    <div className="flex flex-col gap-10 animate-fade">
+      {/* Hero Section */}
+      <div className="glass" style={{ padding: 'clamp(2rem, 8vw, 5rem) 2rem', borderRadius: '40px', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '40%', height: '120%', background: 'radial-gradient(circle, var(--primary) 0%, transparent 70%)', opacity: 0.15, filter: 'blur(60px)' }} />
+        <div className="flex flex-col items-center text-center gap-6" style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <h1 style={{ lineHeight: 1.1 }}>Unlock Your Potential with <span style={{ color: 'var(--primary)' }}>EduFlow</span></h1>
+          <p style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)', color: 'var(--text-muted)', maxWidth: '600px' }}>
+            Learn from industry experts and master new skills with our premium, real-time learning platform.
           </p>
           
-          <div className="flex items-center glass" style={{ width: '100%', maxWidth: '600px', padding: '0.5rem', borderRadius: '50px' }}>
-            <Search size={22} className="text-muted" style={{ marginLeft: '1rem' }} />
-            <input 
-              type="text" 
-              placeholder="Search for courses..." 
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              style={{ background: 'transparent', border: 'none', padding: '0.75rem 1rem' }} 
-            />
-            <button className="btn-primary" style={{ borderRadius: '40px', padding: '0.75rem 2rem' }}>Search</button>
-          </div>
-        </div>
-
-        {/* Filters and Grid */}
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <h2 style={{ fontSize: '1.5rem' }}>Explore Courses</h2>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 glass" style={{ padding: '0.5rem 1rem', borderRadius: '12px' }}>
-                <Filter size={18} />
-                <select 
-                  value={category} 
-                  onChange={(e) => setCategory(e.target.value)}
-                  style={{ background: 'transparent', border: 'none', padding: 0, width: 'auto' }}
-                >
-                  <option value="">All Categories</option>
-                  {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                </select>
-              </div>
-
-              <div className="flex items-center gap-2 glass" style={{ padding: '0.5rem 1rem', borderRadius: '12px' }}>
-                <SlidersHorizontal size={18} />
-                <select 
-                  value={priceFilter} 
-                  onChange={(e) => setPriceFilter(e.target.value)}
-                  style={{ background: 'transparent', border: 'none', padding: 0, width: 'auto' }}
-                >
-                  <option value="">All Prices</option>
-                  <option value="free">Free Only</option>
-                  <option value="paid">Paid Only</option>
-                </select>
-              </div>
+          <div className="flex items-center gap-3 w-full max-w-lg mt-4 flex-nowrap" style={{ background: 'var(--bg-dark)', padding: '0.5rem', borderRadius: '20px', border: '1px solid var(--glass-border)' }}>
+            <div className="flex-1 flex items-center gap-2 px-3">
+              <Search size={20} className="text-muted" />
+              <input 
+                type="text" 
+                placeholder="Search courses..." 
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{ background: 'transparent', border: 'none', padding: '0.5rem 0', boxShadow: 'none' }}
+              />
             </div>
+            <button className="btn-primary hide-mobile" style={{ borderRadius: '15px', padding: '0.6rem 1.5rem' }}>Search</button>
           </div>
-
-          {loading ? (
-            <Spinner size="60px" />
-          ) : (
-            <>
-              {filteredCourses.length > 0 ? (
-                <div className="grid grid-3">
-                  {filteredCourses.map(course => (
-                    <CourseCard key={course._id} course={course} />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12 glass" style={{ borderRadius: '20px' }}>
-                  <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>No courses found. Try adjusting your filters.</p>
-                </div>
-              )}
-            </>
-          )}
         </div>
       </div>
-      <style>{`
-        .hero h1 { background: linear-gradient(to right, #fff, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        @media (max-width: 768px) {
-          .hero h1 { font-size: 2.5rem !important; }
-        }
-      `}</style>
+
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <h2 style={{ fontSize: '1.75rem' }}>Explore Our Courses</h2>
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <Filter size={20} className="text-muted" />
+            <select 
+              value={category} 
+              onChange={(e) => setCategory(e.target.value)}
+              style={{ minWidth: '200px', background: 'var(--bg-card)' }}
+            >
+              <option value="All">All Categories</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Mobile Development">Mobile Development</option>
+              <option value="UI/UX Design">UI/UX Design</option>
+            </select>
+          </div>
+        </div>
+
+        {loading ? (
+          <Spinner />
+        ) : filteredCourses.length > 0 ? (
+          <div className="grid grid-2 grid-3 grid-4">
+            {filteredCourses.map(course => (
+              <CourseCard key={course._id} course={course} />
+            ))}
+          </div>
+        ) : (
+          <div className="glass text-center py-20" style={{ borderRadius: '20px' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>No courses found matching your criteria.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

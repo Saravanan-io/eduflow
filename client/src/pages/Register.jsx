@@ -40,87 +40,88 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center" style={{ minHeight: '80vh' }}>
-      <div className="card glass" style={{ width: '100%', maxWidth: '450px', padding: '2.5rem' }}>
+    <div className="flex items-center justify-center animate-fade" style={{ minHeight: '90vh', padding: '2rem 1rem' }}>
+      <div className="card glass" style={{ width: '100%', maxWidth: '500px', padding: 'clamp(1.5rem, 5vw, 3rem)', borderRadius: '24px' }}>
         <div className="flex flex-col items-center gap-2 mb-8">
-          <div className="flex items-center justify-center" style={{ width: '48px', height: '48px', background: 'var(--primary)', borderRadius: '12px', marginBottom: '1rem' }}>
-            <UserPlus size={24} color="white" />
+          <div className="flex items-center justify-center" style={{ width: '56px', height: '56px', background: 'var(--primary)', borderRadius: '16px', marginBottom: '0.5rem', boxShadow: '0 8px 16px rgba(99, 102, 241, 0.3)' }}>
+            <UserPlus size={28} color="white" />
           </div>
-          <h2 style={{ fontSize: '1.75rem' }}>Create Account</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Join thousands of learners worldwide</p>
+          <h2 style={{ fontSize: '1.75rem', textAlign: 'center' }}>Create Account</h2>
+          <p style={{ color: 'var(--text-muted)', textAlign: 'center', fontSize: '0.95rem' }}>Join EduFlow and start your learning journey today</p>
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 mb-6" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--error)', padding: '0.75rem', borderRadius: 'var(--radius)', color: 'var(--error)', fontSize: '0.9rem' }}>
-            <AlertCircle size={18} />
+          <div className="flex items-center gap-2 mb-6" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--error)', padding: '0.75rem', borderRadius: 'var(--radius)', color: 'var(--error)', fontSize: '0.85rem' }}>
+            <AlertCircle size={18} style={{ flexShrink: 0 }} />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="grid grid-2" style={{ gap: '1rem' }}>
-            <div className="flex flex-col gap-1">
-              <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>Username</label>
-              <div className="flex items-center" style={{ position: 'relative' }}>
-                <User size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '12px' }} />
-                <input 
-                  type="text" 
-                  name="username"
-                  placeholder="johndoe" 
-                  value={formData.username}
-                  onChange={handleChange}
-                  required
-                  style={{ paddingLeft: '40px' }}
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>I am a...</label>
-              <div className="flex items-center" style={{ position: 'relative' }}>
-                <Briefcase size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '12px' }} />
-                <select 
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  style={{ paddingLeft: '40px' }}
-                >
-                  <option value="student">Student</option>
-                  <option value="instructor">Instructor</option>
-                </select>
-              </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginLeft: '4px' }}>Username</label>
+            <div className="flex items-center" style={{ position: 'relative' }}>
+              <User size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '16px' }} />
+              <input 
+                type="text" 
+                placeholder="johndoe" 
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                required
+                style={{ paddingLeft: '48px', height: '52px' }}
+              />
             </div>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>Email Address</label>
+          <div className="flex flex-col gap-2">
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginLeft: '4px' }}>Email Address</label>
             <div className="flex items-center" style={{ position: 'relative' }}>
-              <Mail size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '12px' }} />
+              <Mail size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '16px' }} />
               <input 
                 type="email" 
-                name="email"
                 placeholder="you@example.com" 
                 value={formData.email}
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                style={{ paddingLeft: '40px' }}
+                style={{ paddingLeft: '48px', height: '52px' }}
               />
             </div>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)' }}>Password</label>
+          <div className="flex flex-col gap-2">
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginLeft: '4px' }}>Password</label>
             <div className="flex items-center" style={{ position: 'relative' }}>
-              <Lock size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '12px' }} />
+              <Lock size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '16px' }} />
               <input 
                 type="password" 
-                name="password"
                 placeholder="••••••••" 
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
-                style={{ paddingLeft: '40px' }}
+                style={{ paddingLeft: '48px', height: '52px' }}
               />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginLeft: '4px' }}>I want to be a...</label>
+            <div className="grid grid-2" style={{ gap: '1rem' }}>
+              <button 
+                type="button"
+                onClick={() => setFormData({ ...formData, role: 'student' })}
+                className={`flex items-center justify-center gap-2 glass p-3 ${formData.role === 'student' ? 'active-role' : ''}`}
+                style={{ borderRadius: '12px', borderColor: formData.role === 'student' ? 'var(--primary)' : 'var(--glass-border)' }}
+              >
+                Student
+              </button>
+              <button 
+                type="button"
+                onClick={() => setFormData({ ...formData, role: 'instructor' })}
+                className={`flex items-center justify-center gap-2 glass p-3 ${formData.role === 'instructor' ? 'active-role' : ''}`}
+                style={{ borderRadius: '12px', borderColor: formData.role === 'instructor' ? 'var(--primary)' : 'var(--glass-border)' }}
+              >
+                Instructor
+              </button>
             </div>
           </div>
 
@@ -128,16 +129,19 @@ const Register = () => {
             type="submit" 
             className="btn-primary" 
             disabled={loading}
-            style={{ width: '100%', padding: '0.85rem', marginTop: '1rem' }}
+            style={{ width: '100%', padding: '1rem', marginTop: '1rem', height: '52px' }}
           >
-            {loading ? 'Creating account...' : 'Create Account'}
+            {loading ? 'Creating Account...' : 'Sign Up'}
           </button>
         </form>
 
-        <p className="text-center mt-6" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-          Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 600 }}>Login here</Link>
+        <p className="text-center mt-8" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+          Already have an account? <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 600, marginLeft: '4px' }}>Sign in</Link>
         </p>
       </div>
+      <style>{`
+        .active-role { background: rgba(99, 102, 241, 0.15) !important; color: var(--primary) !important; border: 2px solid var(--primary) !important; }
+      `}</style>
     </div>
   );
 };
