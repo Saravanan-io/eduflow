@@ -25,8 +25,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   links.push(
     { to: '/profile', name: 'Profile', icon: <Settings size={20} /> },
-    { to: '/history', name: 'Enrolled', icon: <History size={20} /> },
-    { to: '/achievements', name: 'Awards', icon: <Trophy size={20} /> }
+    { to: '/enrolled', name: 'Enrolled', icon: <History size={20} /> },
+    { to: '/awards', name: 'Awards', icon: <Trophy size={20} /> }
   );
 
   return (

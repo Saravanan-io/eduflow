@@ -32,7 +32,7 @@ const Navbar = ({ toggleSidebar }) => {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-6">
-          <Link to="/courses" className="text-muted hover-primary hide-mobile" style={{ marginRight: '1rem', fontWeight: 500 }}>All Courses</Link>
+          <Link to="/" className="text-muted hover-primary hide-mobile" style={{ marginRight: '1rem', fontWeight: 500 }}>All Courses</Link>
           
           {user ? (
             <div className="flex items-center gap-3">

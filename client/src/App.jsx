@@ -18,6 +18,8 @@ import LessonViewer from './pages/LessonViewer';
 import Quiz from './pages/Quiz';
 import CourseForm from './pages/CourseForm';
 import Profile from './pages/Profile';
+import Enrolled from './pages/Enrolled';
+import Awards from './pages/Awards';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -57,6 +59,8 @@ function App() {
                       </ProtectedRoute>
                     } 
                   />
+                  <Route path="/enrolled" element={<Enrolled />} />
+                  <Route path="/awards" element={<Awards />} />
                   <Route 
                     path="/course/:courseId/learn/:lessonId" 
                     element={
