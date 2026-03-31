@@ -2,13 +2,17 @@ import { Link } from 'react-router-dom';
 import { Users, Clock, Tag } from 'lucide-react';
 
 const CourseCard = ({ course }) => {
+  const fallbackImage = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600";
+
   return (
-    <Link to={`/course/${course._id}`} className="card glass flex flex-col" style={{ overflow: 'hidden', padding: 0 }}>
-      <div className="thumbnail" style={{ height: '180px', position: 'relative' }}>
+    <Link to={`/course/${course._id}`} className="card glass flex flex-col animate-fade" style={{ overflow: 'hidden', padding: 0 }}>
+      <div className="thumbnail" style={{ height: '180px', position: 'relative', background: 'var(--bg-card2)' }}>
         <img 
-          src={course.thumbnail || 'https://via.placeholder.com/400x225?text=No+Thumbnail'} 
+          src={course.thumbnail || fallbackImage} 
           alt={course.title} 
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onError={(e) => { e.target.src = fallbackImage; }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+          className="hover-zoom"
         />
         <div 
           className="badge" 

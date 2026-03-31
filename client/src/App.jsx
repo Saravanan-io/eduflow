@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar';
 import ProtectedRoute from './components/ProtectedRoute';
 import RoleRoute from './components/RoleRoute';
 import AIChatbot from './components/AIChatbot';
+import { ThemeProvider } from './context/ThemeContext';
 import { useState } from 'react';
 
 // Pages
@@ -118,27 +119,29 @@ const AppLayout = () => {
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <SocketProvider>
-          <AppLayout />
-        </SocketProvider>
-      </AuthProvider>
-      <style>{`
-        .app-container {
-          background-color: var(--bg-dark);
-          color: white;
-          min-height: 100vh;
-        }
-        .main-content {
-          padding: 2rem;
-          animation: fadeIn 0.5s ease-out;
-        }
-        @media (max-width: 767px) {
-          .main-content { padding: 1rem !important; }
-        }
-      `}</style>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <AuthProvider>
+          <SocketProvider>
+            <AppLayout />
+          </SocketProvider>
+        </AuthProvider>
+        <style>{`
+          .app-container {
+            background-color: var(--bg-dark);
+            color: white;
+            min-height: 100vh;
+          }
+          .main-content {
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+          }
+          @media (max-width: 767px) {
+            .main-content { padding: 1rem !important; }
+          }
+        `}</style>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -1,15 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, User, Menu, GraduationCap } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { LogOut, User, Menu, GraduationCap, Moon, Sun, Leaf } from 'lucide-react';
 
 const Navbar = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
+  const themes = [
+    { name: 'obsidian', icon: <Moon size={18} />, color: '#6366f1' },
+    { name: 'emerald', icon: <Leaf size={18} />, color: '#10b981' },
+    { name: 'sunset', icon: <Sun size={18} />, color: '#f59e0b' }
+  ];
 
   return (
     <nav className="glass sticky-top" style={{ padding: '0.75rem 1.5rem', zIndex: 100, position: 'sticky', top: 0 }}>
@@ -31,8 +39,29 @@ const Navbar = ({ toggleSidebar }) => {
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-6">
-          <Link to="/" className="text-muted hover-primary hide-mobile" style={{ marginRight: '1rem', fontWeight: 500 }}>All Courses</Link>
+        <div className="flex items-center gap-4 sm:gap-8">
+          {/* Theme Switcher */}
+          <div className="flex items-center gap-1 glass" style={{ padding: '4px', borderRadius: '30px' }}>
+            {themes.map((t) => (
+              <button
+                key={t.name}
+                onClick={() => setTheme(t.name)}
+                className={`flex items-center justify-center`}
+                title={`Switch to ${t.name}`}
+                style={{
+                  width: '32px', height: '32px', borderRadius: '50%',
+                  background: theme === t.name ? t.color : 'transparent',
+                  color: theme === t.name ? '#fff' : 'var(--text-muted)',
+                  boxShadow: theme === t.name ? `0 0 10px ${t.color}` : 'none',
+                  transition: 'all 0.3s'
+                }}
+              >
+                {t.icon}
+              </button>
+            ))}
+          </div>
+
+          <Link to="/" className="text-muted hover-primary hide-mobile" style={{ marginRight: '0', fontWeight: 500 }}>All Courses</Link>
           
           {user ? (
             <div className="flex items-center gap-3">

@@ -1,4 +1,5 @@
 :root {
+  /* Default Obsidian Theme */
   --primary: #6366f1;
   --primary-hover: #4f46e5;
   --primary-glow: rgba(99, 102, 241, 0.35);
@@ -16,6 +17,34 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --radius: 14px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="emerald"] {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-glow: rgba(16, 185, 129, 0.3);
+  --secondary: #064e3b;
+  --bg-dark: #022c22;
+  --bg-card: #064e3b;
+  --bg-card2: #065f46;
+  --text-main: #ecfdf5;
+  --text-muted: #6ee7b7;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="sunset"] {
+  --primary: #f59e0b;
+  --primary-hover: #d97706;
+  --primary-glow: rgba(245, 158, 11, 0.3);
+  --secondary: #7c2d12;
+  --bg-dark: #451a03;
+  --bg-card: #78350f;
+  --bg-card2: #92400e;
+  --text-main: #fffbeb;
+  --text-muted: #fcd34d;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
