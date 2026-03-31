@@ -75,6 +75,35 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// @desc    Update profile picture
+// @route   PUT /api/auth/avatar
+// @access  Private
+router.put('/avatar', protect, async (req, res) => {
+  try {
+    const { avatar } = req.body;
+    if (!avatar) {
+      return res.status(400).json({ success: false, message: 'No image provided' });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.avatar = avatar;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Avatar updated successfully',
+      avatar: user.avatar
+    });
+  } catch (error) {
+    console.error('Avatar update error:', error);
+    res.status(500).json({ success: false, message: 'Server error during avatar update' });
+  }
+});
+
 // @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
