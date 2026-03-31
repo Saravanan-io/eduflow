@@ -85,6 +85,29 @@ router.get('/me', protect, async (req, res) => {
   });
 });
 
+// @desc    Update avatar
+// @route   PUT /api/auth/avatar
+// @access  Private
+router.put('/avatar', protect, async (req, res) => {
+  const { avatar } = req.body;
+  if (!avatar) return res.status(400).json({ message: 'No avatar data provided' });
+
+  try {
+    // Basic size guard: base64 of 5MB ~ 6.8M chars
+    if (avatar.length > 7_000_000) {
+      return res.status(400).json({ message: 'Image too large. Please use an image under 5MB.' });
+    }
+    const user = await require('../models/User').findByIdAndUpdate(
+      req.user._id,
+      { avatar },
+      { new: true }
+    ).select('-password');
+    res.json({ success: true, avatar: user.avatar });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // @desc    Logout user
 // @route   POST /api/auth/logout
 // @access  Public

@@ -21,6 +21,7 @@ import Profile from './pages/Profile';
 import Enrolled from './pages/Enrolled';
 import Awards from './pages/Awards';
 import NotFound from './pages/NotFound';
+import AIChatbot from './components/AIChatbot';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -110,6 +111,7 @@ function App() {
               </main>
             </div>
           </div>
+          <AIChatbot />
         </SocketProvider>
       </AuthProvider>
       <style>{`
