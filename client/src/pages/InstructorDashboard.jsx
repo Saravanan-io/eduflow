@@ -21,11 +21,9 @@ const InstructorDashboard = () => {
 
   const fetchInstructorCourses = async () => {
     try {
-      const { data } = await axios.get('/api/courses');
-      // Filter only instructor's courses
-      const instructorCourses = data.courses.filter(c => c.instructor?._id === user?.id);
-      setCourses(instructorCourses);
-      if (instructorCourses.length > 0) setSelectedCourseId(instructorCourses[0]._id);
+      const { data } = await axios.get('/api/courses/instructor/my-courses');
+      setCourses(data.courses);
+      if (data.courses.length > 0) setSelectedCourseId(data.courses[0]._id);
     } catch (err) {
       console.error('Error fetching courses', err);
     } finally {

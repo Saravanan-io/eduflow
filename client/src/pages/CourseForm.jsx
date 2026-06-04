@@ -19,7 +19,7 @@ const CourseForm = () => {
     category: 'Web Development',
     price: 0,
     thumbnail: null,
-    isPublished: false
+    isPublished: true
   });
 
   // Lessons State

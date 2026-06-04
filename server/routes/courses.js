@@ -28,6 +28,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @desc    Get instructor's courses
+// @route   GET /api/courses/instructor/my-courses
+// @access  Private (Instructor only)
+router.get('/instructor/my-courses', protect, authorize('instructor'), async (req, res) => {
+  try {
+    const courses = await Course.find({ instructor: req.user.id })
+      .populate('instructor', 'username avatar')
+      .sort({ createdAt: -1 });
+    res.json({ success: true, courses });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // @desc    Create new course
 // @route   POST /api/courses
 // @access  Private (Instructor only)
@@ -37,7 +51,7 @@ router.post(
   authorize('instructor'),
   upload.single('thumbnail'),
   async (req, res) => {
-    const { title, description, category, price } = req.body;
+    const { title, description, category, price, isPublished } = req.body;
 
     try {
       const existingCourse = await Course.findOne({ title });
@@ -50,6 +64,7 @@ router.post(
         description,
         category,
         price,
+        isPublished: isPublished === 'true' || isPublished === true,
         instructor: req.user.id,
         thumbnail: req.file ? req.file.path : '',
       });
