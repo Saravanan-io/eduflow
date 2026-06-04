@@ -22,8 +22,9 @@ const InstructorDashboard = () => {
   const fetchInstructorCourses = async () => {
     try {
       const { data } = await axios.get('/api/courses/instructor/my-courses');
-      setCourses(data.courses);
-      if (data.courses.length > 0) setSelectedCourseId(data.courses[0]._id);
+      const coursesData = data && Array.isArray(data.courses) ? data.courses : [];
+      setCourses(coursesData);
+      if (coursesData.length > 0) setSelectedCourseId(coursesData[0]._id);
     } catch (err) {
       console.error('Error fetching courses', err);
     } finally {

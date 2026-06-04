@@ -19,7 +19,7 @@ const Enrolled = () => {
   const fetchEnrollments = async () => {
     try {
       const { data } = await axios.get('/api/enrollments/my-courses');
-      setEnrollments(data.enrollments);
+      setEnrollments(data && Array.isArray(data.enrollments) ? data.enrollments : []);
     } catch (err) {
       console.error('Error fetching enrollments', err);
     } finally {

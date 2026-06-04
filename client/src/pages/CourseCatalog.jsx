@@ -20,7 +20,7 @@ const CourseCatalog = () => {
       const { data } = await axios.get('/api/courses', {
         params: { category: category === 'All' ? '' : category }
       });
-      setCourses(data.courses);
+      setCourses(data && Array.isArray(data.courses) ? data.courses : []);
     } catch (err) {
       console.error('Error fetching courses', err);
     } finally {
