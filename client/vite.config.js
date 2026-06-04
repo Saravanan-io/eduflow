@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/eduflow/",
+  base: process.env.VERCEL ? "/" : "/eduflow/",
   plugins: [react()],
   server: {
     proxy: {

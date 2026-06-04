@@ -12,7 +12,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (token && user) {
-      const newSocket = io(window.location.origin, {
+      const newSocket = io(import.meta.env.VITE_API_URL || window.location.origin, {
         auth: { token },
       });
 
