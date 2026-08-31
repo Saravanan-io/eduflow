@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Themes: 'obsidian', 'emerald', 'sunset'
+  // Themes: 'obsidian', 'emerald', 'sunset', 'light'
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('eduflow-theme') || 'obsidian';
   });
@@ -14,7 +14,7 @@ export const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = (newTheme) => {
-    if (['obsidian', 'emerald', 'sunset'].includes(newTheme)) {
+    if (['obsidian', 'emerald', 'sunset', 'light'].includes(newTheme)) {
       setTheme(newTheme);
     }
   };

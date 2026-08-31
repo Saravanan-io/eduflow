@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+const { supabase } = require('../config/db');
 const { protect } = require('../middleware/auth');
 
 // @desc    Register new user
@@ -11,31 +12,51 @@ router.post('/register', async (req, res) => {
   const { username, email, password, role } = req.body;
 
   try {
-    let user = await User.findOne({ email });
-    if (user) {
+    // Check if user already exists
+    const { data: existingUser } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    user = await User.create({
-      username,
-      email,
-      password,
-      role: role || 'student',
-    });
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRE,
+    // Create user in Supabase
+    const { data: user, error } = await supabase
+      .from('users')
+      .insert({
+        username,
+        email,
+        password: hashedPassword,
+        role: role || 'student',
+      })
+      .select()
+      .single();
+
+    if (error || !user) {
+      return res.status(500).json({ message: error ? error.message : 'Error creating user' });
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE || '7d',
     });
 
     res.status(201).json({
       success: true,
       token,
       user: {
-        id: user._id,
+        _id: user.id,
+        id: user.id,
         username: user.username,
         email: user.email,
         role: user.role,
-        avatar: user.avatar,
+        avatar: user.avatar || '',
       },
     });
   } catch (error) {
@@ -50,24 +71,35 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
-    if (!user || !(await user.matchPassword(password))) {
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (error || !user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRE,
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRE || '7d',
     });
 
     res.json({
       success: true,
       token,
       user: {
-        id: user._id,
+        _id: user.id,
+        id: user.id,
         username: user.username,
         email: user.email,
         role: user.role,
-        avatar: user.avatar,
+        avatar: user.avatar || '',
       },
     });
   } catch (error) {
@@ -85,18 +117,21 @@ router.put('/avatar', protect, async (req, res) => {
       return res.status(400).json({ success: false, message: 'No image provided' });
     }
 
-    const user = await User.findById(req.user._id);
-    if (!user) {
+    const { data: updatedUser, error } = await supabase
+      .from('users')
+      .update({ avatar })
+      .eq('id', req.user.id)
+      .select()
+      .single();
+
+    if (error || !updatedUser) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-
-    user.avatar = avatar;
-    await user.save();
 
     res.json({
       success: true,
       message: 'Avatar updated successfully',
-      avatar: user.avatar
+      avatar: updatedUser.avatar,
     });
   } catch (error) {
     console.error('Avatar update error:', error);

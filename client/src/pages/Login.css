@@ -1,0 +1,827 @@
+/* EduFlow Landing Login Page - Exact Pixel-Perfect Design */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.eduflow-landing-login-wrapper {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  background-color: #f8fafc;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+.eduflow-split-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ── LEFT HERO COLUMN ────────────────────────────────────────── */
+.eduflow-hero-section {
+  flex: 1.25;
+  background: linear-gradient(180deg, #faf7ff 0%, #f3f0ff 40%, #eef2ff 100%);
+  padding: 2rem 3rem 1.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Navbar */
+.eduflow-landing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  z-index: 100;
+  position: relative;
+}
+
+/* Interactive Courses Dropdown Menu */
+.eduflow-courses-dropdown-panel {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  max-width: 580px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15), 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  padding: 1.25rem;
+  z-index: 200;
+  animation: eduflowSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes eduflowSlideDown {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.eduflow-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.eduflow-dropdown-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.eduflow-dropdown-search {
+  position: relative;
+  margin-bottom: 0.85rem;
+}
+
+.eduflow-dropdown-search input {
+  width: 100%;
+  height: 38px;
+  padding: 0 1rem 0 2.5rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.85rem;
+}
+
+.eduflow-dropdown-search .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+}
+
+.eduflow-courses-scroll-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.eduflow-course-row-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.eduflow-course-row-card:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  transform: translateX(4px);
+}
+
+.eduflow-course-row-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eduflow-course-avatar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #e0e7ff;
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.eduflow-course-meta-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.eduflow-course-meta-category {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.eduflow-course-row-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eduflow-course-rating-pill {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #fffbeb;
+  color: #d97706;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.eduflow-course-price-tag {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+/* Card Focus Pulse Highlight */
+@keyframes eduflowPulseFocus {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  50% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(79, 70, 229, 0); }
+  100% { transform: scale(1); box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05); }
+}
+
+.eduflow-login-card.highlight-focus {
+  animation: eduflowPulseFocus 0.8s ease-in-out;
+  border-color: #6366f1 !important;
+}
+
+.eduflow-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+
+.eduflow-logo-badge {
+  width: 36px;
+  height: 36px;
+  background: #e0e7ff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4f46e5;
+  border: 1px solid #c7d2fe;
+}
+
+.eduflow-brand-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+}
+
+.eduflow-brand-name span {
+  color: #4f46e5;
+}
+
+.eduflow-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.eduflow-nav-link {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.eduflow-nav-link:hover {
+  color: #4f46e5;
+}
+
+.eduflow-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 30px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0f172a;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.eduflow-explore-btn:hover {
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Main Hero Typography Header */
+.eduflow-hero-header-content {
+  max-width: 680px;
+  z-index: 5;
+  margin-bottom: 1.25rem;
+}
+
+.eduflow-welcome-tag {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #6366f1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.eduflow-hero-headline {
+  font-size: clamp(2.4rem, 3.8vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: #0f172a;
+  margin-bottom: 0.85rem;
+}
+
+.eduflow-headline-accent {
+  background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 60%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.eduflow-hero-subtext {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.55;
+  max-width: 500px;
+}
+
+/* Lower Hero Grid: Features on Left, Illustration + Stats on Right */
+.eduflow-hero-bottom-grid {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  position: relative;
+  margin-top: 1rem;
+}
+
+/* Left Side Features List */
+.eduflow-features-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 0.9;
+  z-index: 5;
+  margin-bottom: 2rem;
+}
+
+.eduflow-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.eduflow-feature-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4f46e5;
+  flex-shrink: 0;
+}
+
+.eduflow-feature-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.eduflow-feature-info p {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+/* Right Side Illustration & Stat Cards Area */
+.eduflow-illustration-container {
+  position: relative;
+  flex: 1.4;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 340px;
+}
+
+/* Soft Purple Organic Curved Background Shape */
+.eduflow-purple-shape-backdrop {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 320px;
+  height: 300px;
+  background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 60%, #6366f1 100%);
+  border-radius: 160px 160px 0 0;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+/* Arc Line Decor */
+.eduflow-arc-line-decor {
+  position: absolute;
+  right: 60px;
+  bottom: 80px;
+  width: 180px;
+  height: 180px;
+  border: 1.5px stroke #a5b4fc;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Student & Desk Composite Wrapper */
+.eduflow-student-desk-wrapper {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eduflow-student-photo-cutout {
+  width: 280px;
+  height: 280px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50% 50% 0 0;
+  display: block;
+  z-index: 3;
+  margin-left: -30px;
+}
+
+/* Wooden Desk Surface Bar */
+.eduflow-desk-surface {
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(180deg, #d4a373 0%, #bc8a5f 100%);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 4;
+  margin-top: -12px;
+}
+
+.eduflow-desk-plant {
+  width: 42px;
+  height: 54px;
+  margin-top: -24px;
+}
+
+.eduflow-desk-notebook {
+  width: 50px;
+  height: 30px;
+  background: #1e293b;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Floating Stat Cards Stack */
+.eduflow-stats-stack {
+  position: absolute;
+  right: -10px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  z-index: 10;
+}
+
+.eduflow-stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  min-width: 180px;
+  transition: transform 0.2s ease;
+}
+
+.eduflow-stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.eduflow-stat-icon-square {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.eduflow-stat-icon-square.purple {
+  background: #eef2ff;
+  color: #6366f1;
+}
+
+.eduflow-stat-icon-square.amber {
+  background: #fffbeb;
+  color: #f59e0b;
+}
+
+.eduflow-stat-info h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.eduflow-stat-info span {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Dots Grid Matrix decor below stat cards */
+.eduflow-stats-dots-matrix {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  width: 80px;
+  height: 50px;
+  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+  background-size: 10px 10px;
+  opacity: 0.7;
+  z-index: 2;
+}
+
+/* ── RIGHT AUTH COLUMN ────────────────────────────────────────── */
+.eduflow-auth-section {
+  flex: 0.82;
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Background Dotted Matrix Decorations */
+.eduflow-dots-pattern-top {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 110px;
+  height: 110px;
+  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.eduflow-rings-pattern-bottom {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.eduflow-rings-pattern-bottom::after {
+  content: '';
+  position: absolute;
+  inset: 25px;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+}
+
+.eduflow-login-card-container {
+  width: 100%;
+  max-width: 420px;
+  z-index: 5;
+}
+
+.eduflow-login-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.02);
+  border: 1px solid #f1f5f9;
+  width: 100%;
+}
+
+.eduflow-card-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.eduflow-card-header h2 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.eduflow-card-header p {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+/* Input Styling */
+.eduflow-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.15rem;
+}
+
+.eduflow-field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.eduflow-input-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.eduflow-forgot-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.eduflow-forgot-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.eduflow-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.eduflow-input-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.eduflow-password-toggle {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eduflow-text-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 1rem 0 2.75rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+.eduflow-text-input.has-right-icon {
+  padding-right: 2.75rem;
+}
+
+.eduflow-text-input::placeholder {
+  color: #94a3b8;
+}
+
+.eduflow-text-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.eduflow-remember-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.35rem;
+}
+
+.eduflow-checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.eduflow-remember-label {
+  font-size: 0.85rem;
+  color: #475569;
+  cursor: pointer;
+}
+
+.eduflow-submit-btn {
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eduflow-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.4);
+}
+
+.eduflow-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.eduflow-divider::before,
+.eduflow-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.eduflow-divider-text {
+  padding: 0 0.85rem;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.eduflow-social-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 1.75rem;
+}
+
+.eduflow-social-btn {
+  height: 42px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.eduflow-social-btn:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.eduflow-card-footer {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.eduflow-signup-link {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.eduflow-signup-link:hover {
+  text-decoration: underline;
+}
+
+.eduflow-security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 1.75rem;
+  font-size: 0.8rem;
+  color: #64748b;
+  text-align: center;
+}
+
+.eduflow-error-box {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .eduflow-split-container {
+    flex-direction: column;
+  }
+  .eduflow-hero-section {
+    padding: 2rem;
+  }
+  .eduflow-hero-bottom-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}

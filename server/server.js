@@ -1,9 +1,11 @@
 require('dotenv').config();
+
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const socketio = require('socket.io');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 const socketHandler = require('./socket/socketHandler');
 
 const authRoutes = require('./routes/auth');
@@ -18,7 +20,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });
@@ -26,6 +28,9 @@ const io = socketio(server, {
 // Middleware
 app.use(express.json());
 app.use(cors());
+
+// Serve uploaded educational files (PDFs, Videos, PPTs) statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Initialize Socket.IO Handler
 socketHandler(io);

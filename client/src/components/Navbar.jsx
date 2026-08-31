@@ -1,104 +1,153 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { LogOut, User, Menu, GraduationCap, Moon, Sun, Leaf } from 'lucide-react';
+import { 
+  Search, 
+  Compass, 
+  Bell, 
+  Sun, 
+  Moon, 
+  ChevronDown, 
+  Menu, 
+  LogOut,
+  User,
+  BookOpen
+} from 'lucide-react';
+import { useState } from 'react';
 
 const Navbar = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
-  const themes = [
-    { name: 'obsidian', icon: <Moon size={18} />, color: '#6366f1' },
-    { name: 'emerald', icon: <Leaf size={18} />, color: '#10b981' },
-    { name: 'sunset', icon: <Sun size={18} />, color: '#f59e0b' }
-  ];
+  const toggleThemeMode = () => {
+    setTheme(theme === 'obsidian' ? 'light' : 'obsidian');
+  };
+
+  const avatarUrl = user?.avatar ||
+    `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80`;
 
   return (
-    <nav className="glass sticky-top" style={{ padding: '0.75rem 1.5rem', zIndex: 100, position: 'sticky', top: 0 }}>
-      <div className="flex items-center justify-between mx-auto flex-nowrap" style={{ maxWidth: '1400px' }}>
-        <div className="flex items-center gap-4 flex-nowrap">
-          <button className="btn-outline mobile-only" onClick={toggleSidebar} style={{ padding: '0.5rem', minWidth: '40px' }}>
+    <header className="top-navbar">
+      <div className="navbar-container">
+        
+        {/* Left Section: Search Input + K Keyboard Badge + Black Explore Pill */}
+        <div className="navbar-left-section">
+          <button 
+            className="btn-outline mobile-only" 
+            onClick={toggleSidebar} 
+            style={{ padding: '0.4rem 0.6rem', display: 'none' }}
+          >
             <Menu size={20} />
           </button>
-          <Link to="/" className="flex items-center gap-2 flex-nowrap" style={{ fontSize: '1.5rem', fontWeight: 800 }}>
-            <GraduationCap size={32} className="primary-text" color="var(--primary)" />
-            <span style={{ 
-              background: 'linear-gradient(45deg, var(--primary), #a78bfa)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent',
-              whiteSpace: 'nowrap'
-            }}>
-              EduFlow
-            </span>
-          </Link>
-        </div>
 
-        <div className="flex items-center gap-4 sm:gap-8">
-          {/* Theme Switcher */}
-          <div className="flex items-center gap-1 glass" style={{ padding: '4px', borderRadius: '30px' }}>
-            {themes.map((t) => (
-              <button
-                key={t.name}
-                onClick={() => setTheme(t.name)}
-                className={`flex items-center justify-center`}
-                title={`Switch to ${t.name}`}
-                style={{
-                  width: '32px', height: '32px', borderRadius: '50%',
-                  background: theme === t.name ? t.color : 'transparent',
-                  color: theme === t.name ? '#fff' : 'var(--text-muted)',
-                  boxShadow: theme === t.name ? `0 0 10px ${t.color}` : 'none',
-                  transition: 'all 0.3s'
-                }}
-              >
-                {t.icon}
-              </button>
-            ))}
+          {/* Search Bar with ⌘ K */}
+          <div className="search-input-header">
+            <Search size={18} className="search-icon" />
+            <input 
+              type="text" 
+              placeholder="Search for courses, skills or topics..." 
+            />
+            <div className="search-kbd-badge">⌘ K</div>
           </div>
 
-          <Link to="/" className="text-muted hover-primary hide-mobile" style={{ marginRight: '0', fontWeight: 500 }}>All Courses</Link>
+          {/* Black Explore Button */}
+          <button className="navbar-explore-black-btn" onClick={() => navigate('/')}>
+            <Compass size={18} />
+            <span>Explore</span>
+          </button>
+        </div>
+
+        {/* Right Section: Bell + Sun + User Profile */}
+        <div className="navbar-right-section">
           
+          {/* Notifications Bell */}
+          <button className="navbar-icon-btn" title="Notifications">
+            <Bell size={18} />
+            <span className="notification-badge">3</span>
+          </button>
+
+          {/* Theme Toggle Button */}
+          <button className="navbar-icon-btn" onClick={toggleThemeMode} title="Toggle theme">
+            {theme === 'obsidian' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+
+          {/* User Profile Badge */}
           {user ? (
-            <div className="flex items-center gap-3">
-              <Link to="/profile" className="flex items-center gap-2 glass" style={{ padding: '0.5rem 1rem', borderRadius: '20px' }}>
-                <User size={18} />
-                <span className="hide-mobile" style={{ fontWeight: 600 }}>{user.username}</span>
-              </Link>
-              <button 
-                onClick={handleLogout} 
-                className="btn-outline flex items-center gap-2"
-                style={{ padding: '0.5rem 1rem' }}
+            <div className="navbar-profile-wrapper">
+              <div 
+                className="modern-profile-pill"
+                onClick={() => setShowDropdown(!showDropdown)}
               >
-                <LogOut size={18} />
-                <span className="hide-mobile">Logout</span>
-              </button>
+                <img 
+                  src={avatarUrl} 
+                  alt="avatar" 
+                  className="modern-profile-avatar-circle"
+                />
+
+                <span className="modern-profile-name">
+                  Hi, {user.username?.split(' ')[0] || 'Saravanan'}
+                </span>
+
+                <ChevronDown 
+                  size={14} 
+                  color="var(--text-muted)" 
+                  className={`profile-chevron ${showDropdown ? 'open' : ''}`}
+                />
+              </div>
+
+              {/* Profile Dropdown */}
+              {showDropdown && (
+                <div className="modern-profile-dropdown">
+                  <div className="modern-dropdown-user-header">
+                    <img src={avatarUrl} alt="avatar" className="modern-profile-avatar-circle" />
+                    <div>
+                      <div className="modern-dropdown-user-title">{user.username || 'Saravanan'}</div>
+                      <span className="modern-dropdown-user-role">{user.role || 'Student'}</span>
+                    </div>
+                  </div>
+
+                  <Link to="/profile" onClick={() => setShowDropdown(false)} className="modern-dropdown-item">
+                    <User size={16} /> My Profile
+                  </Link>
+
+                  <Link to="/my-courses" onClick={() => setShowDropdown(false)} className="modern-dropdown-item">
+                    <BookOpen size={16} /> Enrolled Courses
+                  </Link>
+
+                  <button onClick={handleLogout} className="modern-dropdown-item danger">
+                    <LogOut size={16} /> Logout
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <div className="flex items-center gap-3">
-              <Link to="/login" className="btn-outline" style={{ padding: '0.5rem 1.25rem' }}>Login</Link>
-              <Link to="/register" className="btn-primary" style={{ padding: '0.5rem 1.25rem' }}>Register</Link>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Link to="/login" style={{
+                padding: '0.55rem 1.25rem', borderRadius: '20px', fontSize: '0.85rem',
+                fontWeight: 600, border: '1px solid var(--border-color)',
+                color: 'var(--text-main)', display: 'inline-flex', alignItems: 'center',
+                background: 'var(--bg-card)'
+              }}>Login</Link>
+              <Link to="/register" style={{
+                padding: '0.55rem 1.25rem', borderRadius: '20px', fontSize: '0.85rem',
+                fontWeight: 700, background: '#ffc107',
+                color: '#000000', display: 'inline-flex', alignItems: 'center',
+                boxShadow: '0 4px 12px rgba(255, 193, 7, 0.3)'
+              }}>Register</Link>
             </div>
           )}
         </div>
+
       </div>
-      <style>{`
-        .primary-text { color: var(--primary); }
-        .text-muted { color: var(--text-muted); }
-        .hover-primary:hover { color: var(--primary); }
-        @media (min-width: 769px) { .mobile-only { display: none; } }
-        @media (max-width: 480px) { 
-          .container { padding: 0 0.75rem; }
-          .btn { padding: 0.5rem 0.75rem; font-size: 0.85rem; }
-        }
-      `}</style>
-    </nav>
+    </header>
   );
 };
-
 
 export default Navbar;

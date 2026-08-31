@@ -1,8 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const Enrollment = require('../models/Enrollment');
-const Course = require('../models/Course');
-const Lesson = require('../models/Lesson');
+const { supabase } = require('../config/db');
 
 const socketHandler = (io) => {
   io.use(async (socket, next) => {
@@ -11,10 +8,23 @@ const socketHandler = (io) => {
       if (!token) return next(new Error('Authentication error: No token'));
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findById(decoded.id).select('-password');
-      if (!user) return next(new Error('Authentication error: User not found'));
+      
+      const { data: user, error } = await supabase
+        .from('users')
+        .select('id, username, email, role, avatar')
+        .eq('id', decoded.id)
+        .maybeSingle();
 
-      socket.user = user;
+      if (error || !user) return next(new Error('Authentication error: User not found'));
+
+      socket.user = {
+        _id: user.id,
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
+      };
       next();
     } catch (err) {
       next(new Error('Authentication error: Invalid token'));
@@ -51,30 +61,47 @@ const socketHandler = (io) => {
     // Handle lesson completion
     socket.on('lesson_completed', async ({ courseId, lessonId }) => {
       try {
-        const enrollment = await Enrollment.findOne({
-          student: socket.user.id,
-          course: courseId,
-        });
+        const { data: enrollment } = await supabase
+          .from('enrollments')
+          .select('*')
+          .eq('student_id', socket.user.id)
+          .eq('course_id', courseId)
+          .maybeSingle();
 
-        if (enrollment && !enrollment.completedLessons.includes(lessonId)) {
-          enrollment.completedLessons.push(lessonId);
+        if (enrollment) {
+          let completedLessons = Array.isArray(enrollment.completed_lessons) ? [...enrollment.completed_lessons] : [];
+          if (!completedLessons.includes(lessonId)) {
+            completedLessons.push(lessonId);
 
-          const totalLessons = await Lesson.countDocuments({ course: courseId });
-          enrollment.progress = Math.round((enrollment.completedLessons.length / totalLessons) * 100);
+            const { count: totalLessons } = await supabase
+              .from('lessons')
+              .select('id', { count: 'exact', head: true })
+              .eq('course_id', courseId);
 
-          if (enrollment.progress === 100 && !enrollment.completedAt) {
-            enrollment.completedAt = Date.now();
-            socket.emit('certificate_unlock', { courseId });
+            const count = totalLessons || 1;
+            const progress = Math.min(100, Math.round((completedLessons.length / count) * 100));
+            const completedAt = progress === 100 && !enrollment.completed_at ? new Date().toISOString() : enrollment.completed_at;
+
+            await supabase
+              .from('enrollments')
+              .update({
+                completed_lessons: completedLessons,
+                progress,
+                completed_at: completedAt,
+              })
+              .eq('id', enrollment.id);
+
+            if (progress === 100 && !enrollment.completed_at) {
+              socket.emit('certificate_unlock', { courseId });
+            }
+
+            // Broadcast updated progress back to student dashboard
+            socket.emit('progress_updated', {
+              courseId,
+              progress,
+              completedLessons,
+            });
           }
-
-          await enrollment.save();
-
-          // Broadcast updated progress back to student dashboard
-          socket.emit('progress_updated', {
-            courseId,
-            progress: enrollment.progress,
-            completedLessons: enrollment.completedLessons,
-          });
         }
       } catch (error) {
         socket.emit('error', { message: error.message });

@@ -30,11 +30,11 @@ const Awards = () => {
 
   if (!user) {
     return (
-      <div className="glass text-center" style={{ padding: '5rem 2rem', borderRadius: '30px', maxWidth: '600px', margin: '4rem auto' }}>
-        <Trophy size={56} color="var(--primary)" style={{ margin: '0 auto 1.5rem' }} />
-        <h2 style={{ fontSize: '1.75rem', marginBottom: '1rem' }}>Login to View Awards</h2>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Please log in to see your achievements and certificates.</p>
-        <Link to="/login" className="btn-primary" style={{ padding: '0.9rem 2rem' }}>Login Now</Link>
+      <div className="glass text-center" style={{ padding: '3rem 1.5rem', borderRadius: '16px', maxWidth: '500px', margin: '3rem auto' }}>
+        <Trophy size={48} color="var(--primary)" style={{ margin: '0 auto 1.25rem' }} />
+        <h2 style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>Login to View Awards</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Please log in to see your achievements and certificates.</p>
+        <Link to="/login" className="btn-primary" style={{ padding: '0.75rem 1.75rem', borderRadius: '10px' }}>Login Now</Link>
       </div>
     );
   }
@@ -69,10 +69,10 @@ const Awards = () => {
       <section className="flex flex-col gap-6">
         <h2 style={{ fontSize: '1.4rem', fontWeight: 700 }}>Certificates</h2>
         {completed.length === 0 ? (
-          <div className="glass text-center" style={{ padding: '3rem', borderRadius: '20px' }}>
-            <GraduationCap size={48} color="var(--text-muted)" style={{ margin: '0 auto 1rem' }} />
-            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Complete a course to earn your first certificate!</p>
-            <Link to="/" className="btn-primary" style={{ padding: '0.8rem 2rem', borderRadius: '12px' }}>Browse Courses</Link>
+          <div className="glass text-center" style={{ padding: '2rem 1.5rem', borderRadius: '14px' }}>
+            <GraduationCap size={40} color="var(--text-muted)" style={{ margin: '0 auto 0.75rem' }} />
+            <p style={{ color: 'var(--text-muted)', marginBottom: '1.25rem' }}>Complete a course to earn your first certificate!</p>
+            <Link to="/" className="btn-primary" style={{ padding: '0.75rem 1.75rem', borderRadius: '10px' }}>Browse Courses</Link>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
@@ -81,7 +81,7 @@ const Awards = () => {
                 key={enroll._id}
                 className="glass"
                 style={{
-                  borderRadius: '20px',
+                  borderRadius: '14px',
                   overflow: 'hidden',
                   border: '1px solid rgba(99, 102, 241, 0.3)',
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
@@ -104,7 +104,7 @@ const Awards = () => {
                   <span style={{ color: 'var(--text-muted)' }}>
                     Completed: {enroll.completedAt ? new Date(enroll.completedAt).toLocaleDateString() : 'Recently'}
                   </span>
-                  <span style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', padding: '2px 10px', borderRadius: '20px', fontWeight: 700 }}>
+                  <span style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', padding: '2px 8px', borderRadius: '10px', fontWeight: 700 }}>
                     ✓ Done
                   </span>
                 </div>
@@ -123,8 +123,8 @@ const Awards = () => {
               key={badge.id}
               className="glass flex flex-col items-center"
               style={{
-                padding: '2rem 1.25rem',
-                borderRadius: '20px',
+                padding: '1.5rem 1rem',
+                borderRadius: '14px',
                 textAlign: 'center',
                 opacity: badge.unlocked ? 1 : 0.45,
                 border: badge.unlocked ? `1px solid ${badge.color}40` : '1px solid rgba(255,255,255,0.05)',
@@ -151,7 +151,7 @@ const Awards = () => {
                 <span style={{
                   marginTop: '0.75rem', fontSize: '0.7rem', fontWeight: 700,
                   background: `${badge.color}20`, color: badge.color,
-                  padding: '2px 10px', borderRadius: '20px',
+                  padding: '2px 8px', borderRadius: '10px',
                 }}>UNLOCKED</span>
               )}
             </div>

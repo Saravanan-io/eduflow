@@ -41,13 +41,13 @@ const Register = () => {
 
   return (
     <div className="flex items-center justify-center animate-fade" style={{ minHeight: '90vh', padding: '2rem 1rem' }}>
-      <div className="card glass" style={{ width: '100%', maxWidth: '500px', padding: 'clamp(1.5rem, 5vw, 3rem)', borderRadius: '24px' }}>
-        <div className="flex flex-col items-center gap-2 mb-8">
-          <div className="flex items-center justify-center" style={{ width: '56px', height: '56px', background: 'var(--primary)', borderRadius: '16px', marginBottom: '0.5rem', boxShadow: '0 8px 16px rgba(99, 102, 241, 0.3)' }}>
-            <UserPlus size={28} color="white" />
+      <div className="card glass" style={{ width: '100%', maxWidth: '440px', padding: '2rem 1.75rem', borderRadius: '16px' }}>
+        <div className="flex flex-col items-center gap-2 mb-6">
+          <div className="flex items-center justify-center" style={{ width: '48px', height: '48px', background: 'var(--primary)', borderRadius: '12px', marginBottom: '0.25rem', boxShadow: '0 6px 12px rgba(99, 102, 241, 0.25)' }}>
+            <UserPlus size={24} color="white" />
           </div>
-          <h2 style={{ fontSize: '1.75rem', textAlign: 'center' }}>Create Account</h2>
-          <p style={{ color: 'var(--text-muted)', textAlign: 'center', fontSize: '0.95rem' }}>Join EduFlow and start your learning journey today</p>
+          <h2 style={{ fontSize: '1.5rem', textAlign: 'center' }}>Create Account</h2>
+          <p style={{ color: 'var(--text-muted)', textAlign: 'center', fontSize: '0.85rem' }}>Join EduFlow and start your learning journey today</p>
         </div>
 
         {error && (
@@ -68,7 +68,7 @@ const Register = () => {
                 value={formData.username}
                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 required
-                style={{ paddingLeft: '48px', height: '52px' }}
+                style={{ paddingLeft: '48px', height: '46px' }}
               />
             </div>
           </div>
@@ -83,7 +83,7 @@ const Register = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                style={{ paddingLeft: '48px', height: '52px' }}
+                style={{ paddingLeft: '48px', height: '46px' }}
               />
             </div>
           </div>
@@ -98,7 +98,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
-                style={{ paddingLeft: '48px', height: '52px' }}
+                style={{ paddingLeft: '48px', height: '46px' }}
               />
             </div>
           </div>
@@ -129,7 +129,7 @@ const Register = () => {
             type="submit" 
             className="btn-primary" 
             disabled={loading}
-            style={{ width: '100%', padding: '1rem', marginTop: '1rem', height: '52px' }}
+            style={{ width: '100%', padding: '0.75rem', marginTop: '0.5rem', height: '46px' }}
           >
             {loading ? 'Creating Account...' : 'Sign Up'}
           </button>

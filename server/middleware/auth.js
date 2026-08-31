@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { supabase } = require('../config/db');
 
 // Protect route — verify JWT
 const protect = async (req, res, next) => {
@@ -15,10 +15,27 @@ const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id).select('-password');
-    if (!req.user) {
+    
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('id, username, email, role, avatar, created_at')
+      .eq('id', decoded.id)
+      .single();
+
+    if (error || !user) {
       return res.status(401).json({ message: 'User not found' });
     }
+
+    req.user = {
+      _id: user.id,
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar,
+      createdAt: user.created_at,
+    };
+
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Not authorized, token invalid or expired' });

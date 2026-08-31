@@ -1,51 +1,67 @@
 import { Link } from 'react-router-dom';
-import { Users, Clock, Tag } from 'lucide-react';
+import { Star, Clock, Users } from 'lucide-react';
 
-const CourseCard = ({ course }) => {
-  const fallbackImage = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600";
+const CourseCard = ({ course, isBestseller = true }) => {
+  const fallbackImage = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=600&auto=format&fit=crop";
+  const studentCount = course?.students?.length || 1200;
+  const ratingVal = course?.rating || 4.8;
 
   return (
-    <Link to={`/course/${course._id}`} className="card glass flex flex-col animate-fade" style={{ overflow: 'hidden', padding: 0 }}>
-      <div className="thumbnail" style={{ height: '180px', position: 'relative', background: 'var(--bg-card2)' }}>
+    <Link to={`/course/${course._id}`} className="course-card-custom">
+      
+      {/* Thumbnail Header */}
+      <div className="course-thumbnail-wrapper">
         <img 
           src={course.thumbnail || fallbackImage} 
-          alt={course.title} 
-          onError={(e) => { e.target.src = fallbackImage; }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
-          className="hover-zoom"
+          alt={course.title}
+          onError={(e) => { e.target.src = fallbackImage; }} 
         />
-        <div 
-          className="badge" 
-          style={{ 
-            position: 'absolute', top: '12px', right: '12px', 
-            background: 'var(--primary)', padding: '4px 12px', 
-            borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700 
-          }}
-        >
-          {course.category}
-        </div>
-      </div>
-      
-      <div className="content" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
-        <h3 style={{ fontSize: '1.25rem', lineHeight: 1.3 }}>{course.title}</h3>
         
-        <div className="flex items-center gap-2" style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-          <img 
-            src={course.instructor?.avatar || `https://ui-avatars.com/api/?name=${course.instructor?.username || 'User'}`} 
-            style={{ width: '24px', height: '24px', borderRadius: '50%' }}
-            alt="avatar"
-          />
-          <span>{course.instructor?.username}</span>
+        {/* Bestseller Badge */}
+        {(isBestseller || studentCount > 5) && (
+          <div className="bestseller-badge">
+            Bestseller
+          </div>
+        )}
+      </div>
+
+      {/* Body Details */}
+      <div className="course-card-body">
+        
+        {/* Course Title */}
+        <h3 className="course-title">
+          {course.title || 'React - The Complete Guide'}
+        </h3>
+
+        {/* Instructor & Rating Row */}
+        <div className="instructor-info">
+          <div className="author">
+            <img 
+              src={course.instructor?.avatar || `https://ui-avatars.com/api/?name=${course.instructor?.username || 'John+Doe'}&background=6366f1&color=fff`} 
+              alt="instructor"
+              className="instructor-avatar"
+            />
+            <span>{course.instructor?.username || 'John Doe'}</span>
+          </div>
+
+          <div className="rating-pill">
+            <Star size={13} fill="#f59e0b" color="#f59e0b" />
+            <span>{ratingVal.toFixed(1)}</span>
+            <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.75rem' }}>(2.4K)</span>
+          </div>
         </div>
 
-        <div className="flex items-center justify-between" style={{ marginTop: 'auto' }}>
-          <div className="flex items-center gap-4 text-muted" style={{ fontSize: '0.8rem' }}>
-            <span className="flex items-center gap-1"><Users size={14} /> {course.students?.length || 0}</span>
-            <span className="flex items-center gap-1"><Tag size={14} /> {course.price === 0 ? 'Free' : `$${course.price}`}</span>
-          </div>
-          <button className="btn-primary" style={{ padding: '6px 16px', fontSize: '0.85rem' }}>View Course</button>
+        {/* Footer Meta Row: Level & Duration */}
+        <div className="course-meta-tags">
+          <span className="meta-pill">{course.level || 'Beginner'}</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <Clock size={13} color="var(--text-muted)" />
+            {course.duration || '20 Hours'}
+          </span>
         </div>
+
       </div>
+
     </Link>
   );
 };
